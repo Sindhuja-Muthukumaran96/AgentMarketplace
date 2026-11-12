@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "agent-marketplace",
+  "version": "1.0.0",
+  "description": "Pluggable AI agents for software testing. Generate Playwright test scripts from acceptance criteria, with RAG-grounded context and automated retry on test failure.",
+  "author": {
+    "name": "Agent Marketplace Contributors"
+  },
+  "homepage": "https://github.com/xxxxx/testautomation",
+  "repository": "https://github.com/xxxxx/testautomation",
+  "license": "MIT",
+  "keywords": [
+    "testing",
+    "playwright",
+    "test-automation",
+    "ai-agents",
+    "quality-engineering",
+    "rag",
+    "copilot-agent"
+  ],
+  "agents": [
+    {
+      "id": "test-script-design",
+      "name": "Test Script Design Agent",
+      "description": "Generates Playwright + TypeScript test scripts from acceptance criteria, grounded in your repository's Page Objects, fixtures, and test standards",
+      "commands": [
+        {
+          "name": "generate-test",
+          "description": "Generate a test script from an acceptance criterion"
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "test-script-design",
+      "name": "Test Script Design",
+      "path": "skills/test-script-design/SKILL.md"
+    }
+  ]
+}

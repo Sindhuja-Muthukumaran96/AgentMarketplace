@@ -1,0 +1,30 @@
+{
+  "name": "@agent-marketplace/test-script-design-agent",
+  "version": "0.1.0",
+  "description": "RAG-grounded, tool-calling agent that turns acceptance criteria into a passing Playwright + TypeScript test script in any repository.",
+  "bin": {
+    "test-script-design-agent": "dist/cli.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "knowledge-base"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "type-check": "tsc --noEmit",
+    "dev": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@agent-marketplace/agent-core": "*",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "license": "MIT"
+}

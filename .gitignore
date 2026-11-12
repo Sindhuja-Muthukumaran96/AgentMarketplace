@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.local
+
+# Agent run artifacts (per-consumer-repo; these live under each target repo's own
+# output, but a local run against a sample repo during development lands here)
+**/output/reports/*
+!**/output/reports/.gitkeep
+**/output/.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+npm-debug.log*

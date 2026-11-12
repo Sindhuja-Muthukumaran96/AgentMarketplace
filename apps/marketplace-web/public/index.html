@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Marketplace</title>
+<style>
+  :root {
+    --navy:#0f2742; --blue:#1f6feb; --blue-light:#e8f1ff;
+    --green:#1a7f4e; --green-light:#e6f7ee;
+    --gray:#5b6b7b; --border:#e2e8f0; --bg:#f5f7fa; --amber:#b35c00; --amber-light:#fff3e0;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:#1b2733; line-height:1.55; }
+  header { background:linear-gradient(135deg,var(--navy) 0%,#184a7a 55%,var(--blue) 100%); color:#fff; padding:40px 24px; text-align:center; }
+  header h1 { margin:0 0 8px; font-size:2rem; }
+  header p { margin:0 auto; max-width:640px; opacity:0.92; }
+  main { max-width:960px; margin:-20px auto 60px; padding:0 20px; }
+  .card { background:#fff; border:1px solid var(--border); border-radius:14px; padding:26px; margin-bottom:22px; box-shadow:0 1px 3px rgba(16,24,40,0.07); }
+  .card-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  .card h2 { margin:0; color:var(--navy); font-size:1.3rem; }
+  .badge { display:inline-block; padding:4px 12px; border-radius:999px; font-weight:700; font-size:0.76rem; }
+  .badge.published { background:var(--green-light); color:var(--green); }
+  .badge.coming-soon { background:var(--amber-light); color:var(--amber); }
+  .tagline { color:var(--gray); margin:6px 0 14px; }
+  .description { margin:0 0 14px; }
+  .tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .tag { background:var(--blue-light); color:var(--blue); padding:4px 10px; border-radius:999px; font-size:0.78rem; font-weight:600; }
+  h4 { margin:16px 0 8px; color:var(--navy); font-size:0.95rem; }
+  ol.setup { margin:0; padding-left:20px; }
+  ol.setup li { margin-bottom:6px; }
+  pre { background:#0f172a; color:#e2e8f0; padding:12px 14px; border-radius:8px; overflow-x:auto; font-size:0.82rem; margin:4px 0 14px; }
+  .usage-label { font-size:0.85rem; color:var(--gray); margin-bottom:4px; }
+  .docs-link { display:inline-block; margin-top:6px; color:var(--blue); font-weight:600; text-decoration:none; }
+  .docs-link:hover { text-decoration:underline; }
+  .version { font-size:0.8rem; color:var(--gray); }
+  .empty-state { text-align:center; color:var(--gray); padding:40px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🧩 Agent Marketplace</h1>
+  <p>A local catalog of pluggable AI agents for software testing — install one into any repository via its CLI and <code>agent.config.json</code>.</p>
+</header>
+<main id="catalog">
+  <div class="empty-state">Loading catalog…</div>
+</main>
+<script>
+  async function renderCatalog() {
+    const container = document.getElementById('catalog');
+    try {
+      const response = await fetch('/catalog.json');
+      const agents = await response.json();
+      container.innerHTML = agents.map(renderAgentCard).join('');
+    } catch (err) {
+      container.innerHTML = '<div class="empty-state">Could not load catalog.json</div>';
+    }
+  }
+
+  function renderAgentCard(agent) {
+    const statusBadge = agent.status === 'published'
+      ? '<span class="badge published">Published</span>'
+      : '<span class="badge coming-soon">Coming Soon</span>';
+
+    const tags = (agent.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+
+    const setup = agent.setupSteps
+      ? `<h4>Setup</h4><ol class="setup">${agent.setupSteps.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>`
+      : '';
+
+    const usage = agent.usageExamples
+      ? `<h4>Usage</h4>${agent.usageExamples.map((u) =>
+          `<div class="usage-label">${escapeHtml(u.label)}</div><pre>${escapeHtml(u.command)}</pre>`
+        ).join('')}`
+      : '';
+
+    const config = agent.configExample
+      ? `<h4>Configuration</h4><div class="usage-label">${escapeHtml(agent.configExampleLabel || 'agent.config.json')}</div><pre>${escapeHtml(agent.configExample)}</pre>`
+      : '';
+
+    const docs = agent.docsPath
+      ? `<a class="docs-link" href="${agent.docsPath}" target="_blank" rel="noopener">View full documentation →</a>`
+      : '';
+
+    return `<div class="card">
+      <div class="card-header">
+        <h2>${escapeHtml(agent.name)}</h2>
+        <div>${statusBadge} ${agent.version ? `<span class="version">v${escapeHtml(agent.version)}</span>` : ''}</div>
+      </div>
+      <p class="tagline">${escapeHtml(agent.tagline || '')}</p>
+      <p class="description">${escapeHtml(agent.description || '')}</p>
+      <div class="tags">${tags}</div>
+      ${setup}
+      ${usage}
+      ${config}
+      ${docs}
+    </div>`;
+  }
+
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  renderCatalog();
+</script>
+</body>
+</html>

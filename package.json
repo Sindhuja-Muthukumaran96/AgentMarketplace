@@ -1,0 +1,48 @@
+{
+  "name": "agent-marketplace",
+  "version": "1.0.0",
+  "displayName": "Agent Marketplace - ACE Quality Engineer",
+  "private": false,
+  "description": "Pluggable AI agents for test automation. Generate Playwright test scripts from acceptance criteria, grounded in your repository's standards via RAG.",
+  "publisher": "agent-marketplace",
+  "icon": "images/icon.png",
+  "homepage": "https://github.com/xxxxx/testautomation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xxxxx/testautomation"
+  },
+  "bugs": {
+    "url": "https://github.com/xxxxx/testautomation/issues"
+  },
+  "keywords": [
+    "testing",
+    "playwright",
+    "test-automation",
+    "ai",
+    "copilot",
+    "agent-plugin",
+    "quality-engineering"
+  ],
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "categories": [
+    "Testing",
+    "Other"
+  ],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "type-check": "npm run type-check --workspaces --if-present",
+    "marketplace:serve": "node apps/marketplace-web/server.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0"
+  },
+  "license": "MIT"
+}

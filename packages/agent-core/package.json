@@ -1,0 +1,22 @@
+{
+  "name": "@agent-marketplace/agent-core",
+  "version": "0.1.0",
+  "description": "Shared engine for agent-marketplace plugins: RAG retrieval, LLM tool-calling runtime, command execution, and report generation.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openai": "^4.73.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  },
+  "license": "MIT"
+}

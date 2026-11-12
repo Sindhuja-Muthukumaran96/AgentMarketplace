@@ -1,0 +1,47 @@
+[
+  {
+    "id": "test-script-design-agent",
+    "name": "Test Script Design Agent",
+    "status": "published",
+    "version": "0.1.0",
+    "package": "@agent-marketplace/test-script-design-agent",
+    "tagline": "Turns acceptance criteria into a passing Playwright + TypeScript test script, in any repository.",
+    "description": "A RAG-grounded, tool-calling agent that reads your acceptance criteria, retrieves your repository's own coding standards and real Page Object code, generates a test script via guarded tool calls, actually executes it, and self-heals on failure until it passes (or exhausts its retry budget). Ships with an offline demo mode (no API key required) and a real OpenAI provider for production use.",
+    "tags": ["RAG", "Tool-Calling", "Self-Healing Retry", "Playwright", "TypeScript"],
+    "configExample": "{\n  \"pageObjectsDir\": \"src/pages\",\n  \"fixturesDir\": \"src/fixtures\",\n  \"utilsDir\": \"src/utils\",\n  \"testsDir\": \"tests\",\n  \"generatedTestsSubDir\": \"tests/ui/generated\",\n  \"testCommand\": \"npx playwright test {file} --project=chromium --reporter=json\"\n}",
+    "configExampleLabel": "agent.config.json (place at the root of your repo \u2014 auto-detected defaults apply if omitted)",
+    "setupSteps": [
+      "git clone <this repo> (or npm install @agent-marketplace/agent-core @agent-marketplace/test-script-design-agent once published)",
+      "npm install && npm run build --workspace=@agent-marketplace/test-script-design-agent",
+      "Add an agent.config.json to the root of the repository you want to generate tests into (optional \u2014 common folder names are auto-detected)",
+      "Run the CLI, pointing --target-repo at that repository"
+    ],
+    "usageExamples": [
+      {
+        "label": "Offline demo mode (no API key)",
+        "command": "npx test-script-design-agent run --ac-file acceptance-criteria.md --target-repo ../your-repo --headed"
+      },
+      {
+        "label": "Production mode (real LLM)",
+        "command": "AGENT_LLM_PROVIDER=openai OPENAI_API_KEY=sk-... npx test-script-design-agent run --ac-text \"...\" --target-repo ../your-repo"
+      }
+    ],
+    "docsPath": "/packages/test-script-design-agent/README.md"
+  },
+  {
+    "id": "test-case-generation-agent",
+    "name": "Test Case Generation Agent",
+    "status": "coming-soon",
+    "tagline": "Generates structured, reviewable test cases directly from requirements or user stories \u2014 before any code is written.",
+    "description": "Will reuse the same agent-core engine (RAG retrieval + tool-calling) to produce structured test case documents (steps, expected results, priority, traceability to the requirement) for human review, as an earlier stage in the pipeline than script generation.",
+    "tags": ["RAG", "Requirements", "Test Case Design"]
+  },
+  {
+    "id": "self-healing-agent",
+    "name": "Self-Healing Agent",
+    "status": "coming-soon",
+    "tagline": "Automatically detects and repairs broken locators/tests when the application under test changes.",
+    "description": "Will monitor failing test runs, diagnose whether a failure is a real regression or a stale locator/UI change, and propose (or auto-apply) a fix \u2014 built on the same tool-calling + execution-gated retry loop as the Test Script Design Agent.",
+    "tags": ["Self-Healing", "Maintenance", "Tool-Calling"]
+  }
+]
