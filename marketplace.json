@@ -1,5 +1,8 @@
 {
   "name": "AgentMarketplace",
+  "owner": {
+    "name": "Sindhuja-Muthukumaran96"
+  },
   "plugins": [
     {
       "name": "test-script-design",
