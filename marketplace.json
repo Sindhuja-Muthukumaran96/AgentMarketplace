@@ -1,0 +1,9 @@
+{
+  "name": "AgentMarketplace",
+  "plugins": [
+    {
+      "name": "test-script-design",
+      "source": "https://github.com/Sindhuja-Muthukumaran96/AgentMarketplace"
+    }
+  ]
+}
